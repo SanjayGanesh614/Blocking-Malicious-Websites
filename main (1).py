@@ -5,7 +5,8 @@ from tkinter import messagebox
 from mal_web import run_scanner_app #url scanner
 from url_gatekeeper import run_gatekeeper_app #url blocker
 import bcrypt
-
+import datetime
+import time
 
 #theme
 ctk.set_appearance_mode("dark")
@@ -15,6 +16,8 @@ class ToolLauncherApp(ctk.CTk):
     def __init__(self):
         super().__init__() #gui 
         self.is_authenticated = False
+        self.failed_attempts = 0
+        self.lockout_until = None
         self.title("🔧 Tool Launcher")
         self.geometry("700x700")
         self.configure(fg_color="#0F111A")
@@ -39,29 +42,50 @@ class ToolLauncherApp(ctk.CTk):
             action_btn.configure(text=auth_mode.get())
         #to input user creds
         def perform_action(): 
+            nonlocal result_label
             username = username_entry.get().strip()
             password = password_entry.get().strip()
             creds = self.load_credentials()
-            #if username or password is not inputed by user
+            # Check if currently locked out
+            if self.lockout_until:
+                remaining = (self.lockout_until - datetime.datetime.now()).total_seconds()
+                if remaining > 0:
+                    result_label.configure(text=f"Locked out. Try again in {int(remaining)}s", text_color="orange")
+                    return
+                else:
+                    self.failed_attempts = 0
+                    self.lockout_until = None
             if not username or not password:
                 result_label.configure(text="Username and password required.", text_color="red")
                 return
-            #if signin
+            
             if auth_mode.get() == "Sign In":
                 if username in creds and creds[username] == password:
                     self.is_authenticated = True
+                    self.failed_attempts = 0
+                    self.lockout_until = None
                     auth_window.destroy()
                     ctk.CTkMessagebox(title="Success", message="Authentication successful.", icon="check")
+                    
                 else:
-                    result_label.configure(text="Invalid credentials.", text_color="red")
-            #sign up
-            else: 
+                    self.failed_attempts += 1
+                    if self.failed_attempts >= 3:
+                        self.lockout_until = datetime.datetime.now() + datetime.timedelta(seconds=30)
+                        result_label.configure(text="Too many failed attempts. Locked for 30 seconds.", text_color="red")
+                    else:
+                        attempts_left = 3 - self.failed_attempts
+                        result_label.configure(text=f"Invalid credentials. {attempts_left} attempt(s) left.", text_color="red")
+                        
+            else:  # Sign Up
                 if username in creds:
                     result_label.configure(text="Username already exists.", text_color="orange")
+                    
                 else:
                     creds[username] = password
                     self.save_credentials(creds)
                     result_label.configure(text="Account created! You can now sign in.", text_color="green")
+
+           
         #login window
         mode_label = ctk.CTkLabel(auth_window, text=auth_mode.get(), font=("Segoe UI", 20, "bold"))
         mode_label.pack(pady=(20, 10))
@@ -198,3 +222,4 @@ class ToolLauncherApp(ctk.CTk):
 if __name__ == "__main__":
     app = ToolLauncherApp()
     app.mainloop()
+

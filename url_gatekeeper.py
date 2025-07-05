@@ -41,9 +41,9 @@ class URLGatekeeperApp(ctk.CTk):
         self.display_main_screen()
 
     def create_title_bar(self):
-        self.title_label = ctk.CTkLabel(self, text="🚫 URL Gatekeeper", font=("Segoe UI", 22, "bold"), text_color="#00F0FF", cursor="hand2")
+        self.title_label = ctk.CTkLabel(self, text="🚫 URL Gatekeeper", font=("Segoe UI", 22, "bold"), text_color="#00F0FF")
         self.title_label.pack(pady=15)
-        self.title_label.bind("<Button-1>", lambda e: self.display_project_info())
+        
 
     def display_main_screen(self):
         self.clear_widgets()
@@ -60,8 +60,16 @@ class URLGatekeeperApp(ctk.CTk):
         ctk.CTkButton(btn_frame, text="🚫 Block", command=self.block_url, fg_color="#A259FF", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
         ctk.CTkButton(btn_frame, text="✅ Unblock", command=self.unblock_url, fg_color="#00FFAB", text_color="#0F111A", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
         ctk.CTkButton(btn_frame, text="🔁 Refresh DNS", command=self.flush_dns, fg_color="#007BFF", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
-        ctk.CTkButton(self, text="📥 Import Blocklist (TXT)", command=self.import_block_list_from_txt, fg_color="#2E8B57", text_color="white").pack(pady=5)
-        ctk.CTkButton(self, text="📤 Import Unblock List (TXT)", command=self.import_unblock_list_from_txt, fg_color="#FF5722", text_color="white").pack(pady=5)
+        import_frame = ctk.CTkFrame(self, fg_color="transparent")
+        import_frame.pack(pady=5)
+        ctk.CTkButton(import_frame, text="📥 Import Blocklist (TXT)",
+                      command=self.import_block_list_from_txt,
+                      fg_color="#2E8B57", text_color="white",
+                      font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
+        ctk.CTkButton(import_frame, text="📤 Import Unblock List (TXT)",
+                      command=self.import_unblock_list_from_txt,
+                      fg_color="#FF5722", text_color="white",
+                      font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
 
 
         

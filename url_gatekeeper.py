@@ -60,6 +60,9 @@ class URLGatekeeperApp(ctk.CTk):
         ctk.CTkButton(btn_frame, text="🚫 Block", command=self.block_url, fg_color="#A259FF", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
         ctk.CTkButton(btn_frame, text="✅ Unblock", command=self.unblock_url, fg_color="#00FFAB", text_color="#0F111A", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
         ctk.CTkButton(btn_frame, text="🔁 Refresh DNS", command=self.flush_dns, fg_color="#007BFF", font=("Segoe UI", 13, "bold")).pack(side="left", padx=10)
+        ctk.CTkButton(self, text="📥 Import Blocklist (TXT)", command=self.import_block_list_from_txt, fg_color="#2E8B57", text_color="white").pack(pady=5)
+        ctk.CTkButton(self, text="📤 Import Unblock List (TXT)", command=self.import_unblock_list_from_txt, fg_color="#FF5722", text_color="white").pack(pady=5)
+
 
         
         ctk.CTkLabel(self, text="🚫 Blocked URLs", font=("Segoe UI", 14, "bold"), text_color="#FF5E5E").pack(pady=(20, 5))
@@ -73,7 +76,7 @@ class URLGatekeeperApp(ctk.CTk):
 
         ctk.CTkButton(self, text="Unblock Selected", command=self.unblock_selected, fg_color="#FFC107", text_color="#0F111A").pack(pady=5)
         ctk.CTkButton(self, text="📄 Export Blocked URLs", command=self.export_blocked_urls_to_txt, fg_color="#9C27B0", text_color="white").pack(pady=5)
-
+        
         self.refresh_blocked_list()
 
 
@@ -144,6 +147,50 @@ class URLGatekeeperApp(ctk.CTk):
         except Exception as e:
             messagebox.showerror("Error", str(e))
             self.set_status("Unblock failed", "#FF4444")
+
+    def import_block_list_from_txt(self):
+        filepath = filedialog.askopenfilename(title="Select Blocklist TXT File", filetypes=[("Text Files", "*.txt")])
+        if not filepath:
+            return
+        try:
+            with open(filepath, 'r') as f:
+                urls = [line.strip() for line in f if line.strip()]
+                
+            count = 0
+            for url in urls:
+                clean_url = url.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]
+                if clean_url and clean_url not in self.blocked_urls:
+                    self._block_url_logic(clean_url)
+                    count += 1
+                    
+            self.set_status(f"{count} URLs imported and blocked", "#00FFAB")
+        
+        except Exception as e:
+            messagebox.showerror("Import Error", str(e))
+            self.set_status("Blocklist import failed", "#FF4444")
+
+    def import_unblock_list_from_txt(self):
+        filepath = filedialog.askopenfilename(title="Select Unblock TXT File", filetypes=[("Text Files", "*.txt")])
+        if not filepath:
+            return
+        try:
+            with open(filepath, 'r') as f:
+                urls = [line.strip() for line in f if line.strip()]
+                
+            count = 0
+            for url in urls:
+                clean_url = url.replace("https://", "").replace("http://", "").replace("www.", "").split("/")[0]
+                if clean_url in self.blocked_urls:
+                    self._unblock_logic(clean_url)
+                    count += 1
+                    
+            self.set_status(f"{count} URLs unblocked from TXT", "#00FFAB")
+            
+        except Exception as e:
+            messagebox.showerror("Import Error", str(e))
+            self.set_status("Unblocklist import failed", "#FF4444")
+
+
 
     def flush_dns(self):
         try:

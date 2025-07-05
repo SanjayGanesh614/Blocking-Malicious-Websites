@@ -1,0 +1,192 @@
+[
+    {
+        "url": "http://phishing.test",
+        "time": "2025-06-27 14:19:18",
+        "reason": "\u26a0\ufe0f Domain 'phishing.test' is blacklisted.",
+        "score": "Heuristic Flagged"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-27 19:07:16",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 1, Suspicious: 2"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-27 19:08:02",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 8, Suspicious: 0"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-06-27 19:35:17",
+        "reason": "No threat detected",
+        "score": "0"
+    },
+    {
+        "url": "http://www.eicar.org/download/eicar.com",
+        "time": "2025-06-27 19:36:38",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 6, Suspicious: 1"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-29 11:50:17",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    },
+    {
+        "url": "D:\\detect virus",
+        "time": "2025-06-29 12:05:58",
+        "reason": "No threat detected",
+        "score": "0"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-29 12:06:27",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 2"
+    },
+    {
+        "url": "http://update-now.gq",
+        "verdict": "Malicious:2, Suspicious:3",
+        "time": "2025-06-29T21:53:34.994192"
+    },
+    {
+        "url": "http://update-now.gq",
+        "verdict": "Malicious:2, Suspicious:3",
+        "time": "2025-06-29T21:54:06.527914"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-30 11:37:47",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-30 12:01:58",
+        "malicious": 0,
+        "suspicious": 0,
+        "reason": "\u26a0\ufe0f Suspicious domain extension '.gq' detected.",
+        "rating": 0,
+        "community_score": {}
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 12:03:20",
+        "malicious": 0,
+        "suspicious": 0,
+        "reason": "No threat detected",
+        "rating": 0,
+        "community_score": {}
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 12:04:26",
+        "malicious": 10,
+        "suspicious": 0,
+        "reason": "VirusTotal flagged as malicious or suspicious",
+        "rating": 0,
+        "community_score": {
+            "harmless": 0,
+            "malicious": 0
+        }
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 12:12:27",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 12:21:08",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-06-30 12:21:25",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 12:24:17",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-06-30 13:29:32",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "website.com",
+        "time": "2025-07-01 15:40:05",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
+    },
+    {
+        "url": "dara.pk",
+        "time": "2025-07-04 23:58:26",
+        "reason": "No threat detected",
+        "score": "0"
+    },
+    {
+        "url": "dara.pk",
+        "time": "2025-07-04 23:58:53",
+        "reason": "No threat detected",
+        "score": "0"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-07-05 00:04:16",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-07-05 00:04:33",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-05 00:05:17",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
+    },
+    {
+        "url": "dara.pk",
+        "time": "2025-07-05 00:29:01",
+        "reason": "No threat detected",
+        "score": "0"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-07-05 00:30:04",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-07-05 00:30:22",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    },
+    {
+        "url": "http://login-confirm-account.com",
+        "time": "2025-07-05 01:06:04",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 10, Suspicious: 0"
+    },
+    {
+        "url": "http://update-now.gq",
+        "time": "2025-07-05 01:06:21",
+        "reason": "Detected as malicious by VirusTotal",
+        "score": "Malicious: 2, Suspicious: 3"
+    }
+]

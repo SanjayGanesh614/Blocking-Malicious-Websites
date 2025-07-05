@@ -1,0 +1,17 @@
+[
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-05 13:59:35",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
+    }
+]URL     : google.com
+Time    : 2025-07-05 14:12:35
+Reason  : No threat detected
+Score   : 0
+----------------------------------------
+URL     : http://login-confirm-account.com
+Time    : 2025-07-05 14:54:35
+Reason  : Detected as malicious by VirusTotal
+Score   : Malicious: 10, Suspicious: 0
+----------------------------------------

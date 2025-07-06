@@ -17,16 +17,9 @@ BLOCKED_URLS_FILE = "blocked_urls.json"
 BLOCKED_URLS_TXT = "blocked_urls.txt"
 
 
-# Check for admin rights
-def is_admin():
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except:
-        return False
-
-class URLGatekeeperApp(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+class URLGatekeeperApp(ctk.CTkToplevel):
+    def __init__(self,master = ctk.CTkToplevel):
+        super().__init__(master=master())  # Use Toplevel to avoid admin check issues
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("dark-blue")
 
@@ -263,10 +256,12 @@ class URLGatekeeperApp(ctk.CTk):
             self.set_status("Export failed", "#FF4444")
 
 def run_gatekeeper_app():
-    if not is_admin():
-        messagebox.showerror("Admin Privileges Required", "Run this app as Administrator.")
-        sys.exit()
-    app = URLGatekeeperApp()
-    app.mainloop()
+    # Use Toplevel instead of CTk root
+    gatekeeper_window = URLGatekeeperApp()
+    gatekeeper_window.focus_force()
+    gatekeeper_window.grab_set()
+
+    """app = URLGatekeeperApp()
+    app.mainloop()"""
 
 #if __name__ == "__main__":    main()

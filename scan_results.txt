@@ -4,5 +4,23 @@
         "time": "2025-07-06 18:05:59",
         "reason": "Self-reported as malicious",
         "score": "Reported by user"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-06 18:20:47",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-06 18:25:17",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-06 19:42:49",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
     }
 ]

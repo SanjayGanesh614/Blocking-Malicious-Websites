@@ -19,6 +19,8 @@ load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 
+url_entry = None
+result_box = None
 
 BLACKLIST_FILE = "blacklist.txt"
 EXPORT_TXT = "scan_results.txt"
@@ -112,13 +114,14 @@ class URLScanner:
                 reason = "No threat detected"
                 score = "0"
                 
-        entry = (
-        f"URL     : {url}\n"
-        f"Time    : {timestamp}\n"
-        f"Reason  : {reason}\n"
-        f"Score   : {score}\n"
-        f"{'-'*40}\n"
-        )
+        entry = {
+            "url": url,
+            "timestamp": timestamp,
+            "reason": reason,
+            "score": score,
+        }
+        
+
         try:
             with open(EXPORT_TXT, 'a') as f:
                 f.write(entry)
@@ -127,10 +130,7 @@ class URLScanner:
 
 
 scanner = URLScanner()
-root = ctk.CTk()
-root.title("Malicious URL Scanner")
-root.geometry("600x550")
-root.resizable(False, False)
+
 
 def update_result(text):
     result_box.configure(state="normal")
@@ -212,12 +212,12 @@ def scan_bulk():
     result_box.configure(state="normal")
     result_box.delete("1.0", "end")
     result_box.insert("end", "🔁 Starting bulk scan...\n")
-    root.update_idletasks()
+    scanner_parent.update_idletasks()
 
     for index, url in enumerate(urls, start=1):
         try:
             result_box.insert("end", f"\n🔽 [{index}/{len(urls)}] Scanning: {url}\n")
-            root.update_idletasks()
+            scanner_parent.update_idletasks()
 
             # Step 1: Submit URL
             submission = requests.post("https://www.virustotal.com/api/v3/urls", headers=headers, data={"url": url})
@@ -251,12 +251,12 @@ def scan_bulk():
                     msg = f"✅ Safe | Malicious: {malicious}, Suspicious: {suspicious}"
 
             result_box.insert("end", msg + "\n")
-            root.update_idletasks()
+            scanner_parent.update_idletasks()
 
         except Exception as e:
             error = f"❌ Error scanning {url}: {e}"
             result_box.insert("end", error + "\n")
-            root.update_idletasks()
+            scanner_parent.update_idletasks()
 
     result_box.insert("end", "\n✅ Bulk scan completed.\n")
     result_box.configure(state="disabled")
@@ -293,14 +293,46 @@ def report_url():
     except Exception as e:
         messagebox.showerror("Error", f"Could not report URL: {e}")
 
+def build_scanner_ui(parent):
+    global url_entry,result_box
+    title_label = ctk.CTkLabel(parent, text="\u26d4 Malicious URL Scanner", font=("Arial", 24, "bold"), text_color="cyan")
+    title_label.pack(pady=20)
+    
+    url_entry = ctk.CTkEntry(parent, placeholder_text="e.g. example.com", width=400)
+    url_entry.pack(pady=10)
+    
+    button_frame = ctk.CTkFrame(parent, fg_color="transparent")
+    button_frame.pack(pady=10)
+    
+    scan_button = ctk.CTkButton(button_frame, text="Scan URL", fg_color="purple", command=scan_url)
+    scan_button.grid(row=0, column=0, padx=10)
+    
+    bulk_button = ctk.CTkButton(button_frame, text="Bulk Scan", fg_color="orange", command=scan_bulk)
+    bulk_button.grid(row=0, column=1, padx=10)
+    
+    report_button = ctk.CTkButton(button_frame, text="📝 Report URL", fg_color="red", command=report_url)
+    report_button.grid(row=1, column=0, padx=10, pady=10)
+    
+    blacklist_button = ctk.CTkButton(parent, text="View Blacklist", fg_color="blue", command=show_blacklist)
+    blacklist_button.place(x=310, y=166)
+    
+    result_label = ctk.CTkLabel(parent, text="📃 Scan Results", text_color="red", font=("Arial", 16, "bold"))
+    result_label.pack()
+    
+    result_box = ctk.CTkTextbox(parent, width=550, height=200)
+    result_box.pack(pady=10)
+    
+    exit_button = ctk.CTkButton(parent, text="❌ Exit", fg_color="gold", text_color="black", command=parent.destroy)
+    exit_button.pack(pady=10)
 
-title_label = ctk.CTkLabel(root, text="\u26d4 Malicious URL Scanner", font=("Arial", 24, "bold"), text_color="cyan")
+
+"""title_label = ctk.CTkLabel(parent, text="\u26d4 Malicious URL Scanner", font=("Arial", 24, "bold"), text_color="cyan")
 title_label.pack(pady=20)
 
-url_entry = ctk.CTkEntry(root, placeholder_text="e.g. example.com", width=400)
+url_entry = ctk.CTkEntry(parent, placeholder_text="e.g. example.com", width=400)
 url_entry.pack(pady=10)
 
-button_frame = ctk.CTkFrame(root, fg_color="transparent")
+button_frame = ctk.CTkFrame(parent, fg_color="transparent")
 button_frame.pack(pady=10)
 
 scan_button = ctk.CTkButton(button_frame, text="Scan URL", fg_color="purple", command=scan_url)
@@ -313,19 +345,28 @@ bulk_button.grid(row=0, column=1, padx=10)
 report_button = ctk.CTkButton(button_frame,text="📝 Report URL",fg_color="red", command=report_url)
 report_button.grid(row=1,column=0,padx=10,pady=10)
 
-blacklist_button = ctk.CTkButton(root, text="View Blacklist", fg_color="blue", command=show_blacklist)
+blacklist_button = ctk.CTkButton(parent, text="View Blacklist", fg_color="blue", command=show_blacklist)
 blacklist_button.place(x=310,y=166)
 
-result_label = ctk.CTkLabel(root, text="\ud83d\udcc3 Scan Results", text_color="red", font=("Arial", 16, "bold"))
+result_label = ctk.CTkLabel(parent, text="\ud83d\udcc3 Scan Results", text_color="red", font=("Arial", 16, "bold"))
 result_label.pack()
 
 result_text = ctk.StringVar()
-result_box = ctk.CTkTextbox(root, width=550, height=200)
+result_box = ctk.CTkTextbox(parent, width=550, height=200)
 result_box.pack(pady=10)
 
 
-exit_button = ctk.CTkButton(root, text="\u274c Exit", fg_color="gold", text_color="black", command=root.destroy)
+exit_button = ctk.CTkButton(parent, text="\u274c Exit", fg_color="gold", text_color="black", command=parent.destroy)
 exit_button.pack(pady=10)
-
+"""
 def run_scanner_app():
-    root.mainloop()
+    scanner_window = ctk.CTkToplevel()
+    scanner_window.title("Malicious URL Scanner")
+    scanner_window.geometry("600x550")
+    scanner_window.resizable(False, False)
+    # define all GUI components INSIDE this window
+    build_scanner_ui(scanner_window)
+    global scanner_parent
+    scanner_parent = scanner_window
+    scanner_window.focus_force()
+    scanner_window.grab_set()

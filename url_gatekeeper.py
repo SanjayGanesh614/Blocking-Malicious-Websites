@@ -18,8 +18,8 @@ BLOCKED_URLS_TXT = "blocked_urls.txt"
 
 
 class URLGatekeeperApp(ctk.CTkToplevel):
-    def __init__(self,master = ctk.CTkToplevel):
-        super().__init__(master=master())  # Use Toplevel to avoid admin check issues
+    def __init__(self):
+        super().__init__()  # Use Toplevel to avoid admin check issues
         ctk.set_appearance_mode("dark")
         ctk.set_default_color_theme("dark-blue")
 

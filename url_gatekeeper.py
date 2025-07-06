@@ -76,7 +76,6 @@ class URLGatekeeperApp(ctk.CTkToplevel):
         self.status_label.pack(pady=(10, 5))
 
         ctk.CTkButton(self, text="Unblock Selected", command=self.unblock_selected, fg_color="#FFC107", text_color="#0F111A").pack(pady=5)
-        ctk.CTkButton(self, text="📄 Export Blocked URLs", command=self.export_blocked_urls_to_txt, fg_color="#9C27B0", text_color="white").pack(pady=5)
         
         self.refresh_blocked_list()
 
@@ -230,31 +229,7 @@ class URLGatekeeperApp(ctk.CTkToplevel):
         with open(BLOCKED_URLS_FILE, 'w') as f:
             json.dump(self.blocked_urls, f, indent=2)
 
-    def export_blocked_urls_to_txt(self):
-        if not self.blocked_urls:
-            messagebox.showinfo("No URLs", "There are no blocked URLs to export.")
-            return
-        try:
-            with open(BLOCKED_URLS_TXT, 'w') as f:
-                f.write("🚫 Blocked URLs Export\n")
-                f.write("========================\n\n")
-                for url in self.blocked_urls:
-                    f.write(f"- {url}\n")
-
-            # Open the TXT file with default editor
-            if platform.system().lower() == "windows":
-                os.startfile(BLOCKED_URLS_TXT)
-            elif platform.system().lower() == "darwin":
-                subprocess.run(["open", BLOCKED_URLS_TXT])
-            else:
-                subprocess.run(["xdg-open", BLOCKED_URLS_TXT])
-                
-            self.set_status("Blocked URLs exported to TXT", "#00FFAB")
-            
-        except Exception as e:
-            messagebox.showerror("Export Error", str(e))
-            self.set_status("Export failed", "#FF4444")
-
+    
 def run_gatekeeper_app():
     # Use Toplevel instead of CTk root
     gatekeeper_window = URLGatekeeperApp()

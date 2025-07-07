@@ -118,6 +118,11 @@ class ToolLauncherApp(ctk.CTk):
                     result_label.configure(text="All fields are required.", text_color="red")
                     return
                 
+                if not email.endswith("@gmail.com"):
+                    result_label.configure(text="Only Gmail addresses are allowed.", text_color="red")
+                    return
+
+                
                 if password != confirm_password:
                     result_label.configure(text="Passwords do not match.", text_color="red")
                     return

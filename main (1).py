@@ -54,9 +54,6 @@ class ToolLauncherApp(ctk.CTk):
             mode_label.configure(text=auth_mode.get())
             action_btn.configure(text=auth_mode.get())
             if auth_mode.get() == "Sign Up":
-                name_frame.pack(pady=5)
-                fname_entry.pack(in_=name_frame, side="left", padx=(0, 5))
-                lname_entry.pack(in_=name_frame, side="left", padx=(5, 0))
                 username_entry.pack(pady=5, padx=30)
                 email_entry.pack(pady=5, padx=30)
                 password_entry.pack(pady=5, padx=30)
@@ -64,9 +61,6 @@ class ToolLauncherApp(ctk.CTk):
                 terms_checkbox.pack(pady=5)
                 
             else:
-                name_frame.pack_forget()
-                fname_entry.pack_forget()
-                lname_entry.pack_forget()
                 email_entry.pack_forget()
                 confirm_password_entry.pack_forget()
                 terms_checkbox.pack_forget()
@@ -96,7 +90,7 @@ class ToolLauncherApp(ctk.CTk):
                 return
             
             if auth_mode.get() == "Sign In":
-                if username in creds and creds[username]== password:
+                if username in creds and creds[username]["password"]== password:
                     self.is_authenticated = True
                     self.failed_attempts = 0
                     self.lockout_until = None
@@ -117,12 +111,10 @@ class ToolLauncherApp(ctk.CTk):
 
                 # Sign-Up mode        
             else:
-                fname = fname_entry.get().strip()
-                lname = lname_entry.get().strip()
                 email = email_entry.get().strip()
                 confirm_password = confirm_password_entry.get().strip()
                 
-                if not all([fname, lname, username, email, password, confirm_password]):
+                if not all([username, email, password, confirm_password]):
                     result_label.configure(text="All fields are required.", text_color="red")
                     return
                 
@@ -140,8 +132,6 @@ class ToolLauncherApp(ctk.CTk):
                 else:
                      
                     creds[username] = {
-                        "first_name": fname,
-                        "last_name": lname,
                         "email": email,
                         "password": password
                     }
@@ -163,70 +153,7 @@ class ToolLauncherApp(ctk.CTk):
         switch_btn.pack(pady=5)
         
         result_label.pack(pady=10)
-        """def perform_action(): 
-            nonlocal result_label
-            username = username_entry.get().strip()
-            password = password_entry.get().strip()
-            creds = self.load_credentials()
-            # Check if currently locked out
-            if self.lockout_until:
-                remaining = (self.lockout_until - datetime.datetime.now()).total_seconds()
-                if remaining > 0:
-                    result_label.configure(text=f"Locked out. Try again in {int(remaining)}s", text_color="orange")
-                    return
-                else:
-                    self.failed_attempts = 0
-                    self.lockout_until = None
-            if not username or not password:
-                result_label.configure(text="Username and password required.", text_color="red")
-                return
-            
-            if auth_mode.get() == "Sign In":
-                if username in creds and creds[username] == password:
-                    self.is_authenticated = True
-                    self.failed_attempts = 0
-                    self.lockout_until = None
-                    auth_window.destroy()
-                    ctk.CTkMessagebox(title="Success", message="Authentication successful.", icon="check")
-                    
-                else:
-                    self.failed_attempts += 1
-                    if self.failed_attempts >= 3:
-                        self.lockout_until = datetime.datetime.now() + datetime.timedelta(seconds=30)
-                        result_label.configure(text="Too many failed attempts. Locked for 30 seconds.", text_color="red")
-                    else:
-                        attempts_left = 3 - self.failed_attempts
-                        result_label.configure(text=f"Invalid credentials. {attempts_left} attempt(s) left.", text_color="red")
-                        
-            else:  # Sign Up
-                if username in creds:
-                    result_label.configure(text="Username already exists.", text_color="orange")
-                    
-                else:
-                    creds[username] = password
-                    self.save_credentials(creds)
-                    result_label.configure(text="Account created! You can now sign in.", text_color="green")
-
-           
-        #login window
-        mode_label = ctk.CTkLabel(auth_window, text=auth_mode.get(), font=("Segoe UI", 20, "bold"))
-        mode_label.pack(pady=(20, 10))
-
-        username_entry = ctk.CTkEntry(auth_window, placeholder_text="Username")
-        username_entry.pack(pady=10, padx=30)
-
-        password_entry = ctk.CTkEntry(auth_window, placeholder_text="Password", show="*")
-        password_entry.pack(pady=10, padx=30)
-
-        action_btn = ctk.CTkButton(auth_window, text=auth_mode.get(), command=perform_action)
-        action_btn.pack(pady=10)
-
-        switch_btn = ctk.CTkButton(auth_window, text="Switch to Sign Up / Sign In", command=switch_mode, fg_color="gray")
-        switch_btn.pack(pady=5)
-
-        result_label = ctk.CTkLabel(auth_window, text="", text_color="white")
-        result_label.pack(pady=10)"""
-
+        
     #to load creds 
     def load_credentials(self):
         if os.path.exists("credentials.json"):

@@ -38,13 +38,26 @@ class ToolLauncherApp(ctk.CTk):
         password_entry = ctk.CTkEntry(auth_window, placeholder_text="Password", show="*")
         result_label = ctk.CTkLabel(auth_window, text="", text_color="white")
         # 🔷 Define Sign-Up specific widgets
-        fname_entry = ctk.CTkEntry(auth_window, placeholder_text="First Name", width=150)
-        lname_entry = ctk.CTkEntry(auth_window, placeholder_text="Last Name", width=150)
         email_entry = ctk.CTkEntry(auth_window, placeholder_text="Email")
         confirm_password_entry = ctk.CTkEntry(auth_window, placeholder_text="Confirm Password", show="*")
-        terms_checkbox = ctk.CTkCheckBox(auth_window, text="I agree to the Terms and Conditions")
-        name_frame = ctk.CTkFrame(auth_window, fg_color="transparent")
+        terms_checkbox = ctk.CTkCheckBox(auth_window, text="I agree to the ")
+        terms_label = ctk.CTkLabel(auth_window, text="Terms and Conditions", text_color="cyan", cursor="hand2", font=("Segoe UI", 12, "underline"))
+        def show_terms_dialog(event=None):
+            terms_text = (
+                "🔒 Terms and Conditions\n\n"
+                "1. You agree not to share your login credentials.\n"
+                "2. This tool is intended for security testing only.\n"
+                "3. You are responsible for how you use the scanner/blocker.\n"
+                "4. We do not collect or store any personal browsing data.\n"
+                "5. By using this app, you consent to these terms."
+            )
+            messagebox.showinfo("Terms and Conditions", terms_text)
 
+        terms_label.bind("<Button-1>", show_terms_dialog)
+
+
+
+        
 
         #for sign in 
         # 🔷 Toggle between Sign In and Sign Up
@@ -58,7 +71,9 @@ class ToolLauncherApp(ctk.CTk):
                 email_entry.pack(pady=5, padx=30)
                 password_entry.pack(pady=5, padx=30)
                 confirm_password_entry.pack(pady=5, padx=30)
-                terms_checkbox.pack(pady=5)
+                terms_checkbox.pack(pady=2)
+                terms_label.pack(pady=(0, 5))
+
                 
             else:
                 email_entry.pack_forget()

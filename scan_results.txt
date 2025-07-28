@@ -22,5 +22,11 @@
         "time": "2025-07-06 19:42:49",
         "reason": "Self-reported as malicious",
         "score": "Reported by user"
+    },
+    {
+        "url": "daraz.pk",
+        "time": "2025-07-27 12:40:41",
+        "reason": "Self-reported as malicious",
+        "score": "Reported by user"
     }
 ]

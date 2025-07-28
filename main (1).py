@@ -4,7 +4,6 @@ import json #to store data
 from tkinter import messagebox 
 from mal_web import run_scanner_app #url scanner
 from url_gatekeeper import run_gatekeeper_app #url blocker
-import bcrypt
 import datetime
 import time
 
